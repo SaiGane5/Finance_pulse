@@ -8,7 +8,7 @@ const NewsAnalysis = () => {
     // Fetch news data using Axios
     const fetchNews = async () => {
       try {
-        const response = await axios.get('https://finance-pulse.onrender.com/api/news');
+        const response = await axios.get('http://0.0.0.0:8000/api/news');
         setNewsData(response.data);
       } catch (error) {
         console.error('There was a problem with the fetch operation:', error);

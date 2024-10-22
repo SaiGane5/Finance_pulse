@@ -1,4 +1,3 @@
-import os
 from fastapi import FastAPI, WebSocket, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
@@ -8,7 +7,11 @@ from services.market_data import get_market_data
 from services.entity_recognition import extract_entities
 from services.investment_recommender import get_investment_recommendations
 import httpx
+import os
+from dotenv import load_dotenv
 
+# Load environment variables from .env file
+load_dotenv()
 app = FastAPI()
 
 app.add_middleware(
@@ -19,6 +22,9 @@ app.add_middleware(
     allow_headers=["*"],  # Allow all headers
 )
 
+# Mount the frontend static files
+# app.mount("/", StaticFiles(directory="../", html=True), name="frontend")
+API_KEY = os.environ.get('FINANCE_API_KEY')
 @app.get("/api/forecast")
 async def liquidity_forecast():
     forecast_data = await forecast_liquidity()
@@ -40,18 +46,18 @@ async def get_market():
 @app.get("/api/recommendations")
 async def get_recommendations():
     market_data = await get_market_data()
-    return await get_investment_recommender(market_data)
+    return await get_investment_recommendations(market_data)
 
 @app.get("/api/cash-flow/{symbol}")
 async def get_cash_flow(symbol: str):
     async with httpx.AsyncClient() as client:
-        response = await client.get(f"https://financialmodelingprep.com/api/v3/cash-flow-statement/{symbol}?apikey=U2QEsMasPfIbprTwSVyubH5Ehe9AjRMM")
+        response = await client.get(f"https://financialmodelingprep.com/api/v3/cash-flow-statement/{symbol}?apikey={API_KEY}")
     return response.json()
 
 @app.get("/api/quote/{symbol}")
 async def get_quote(symbol: str):
     async with httpx.AsyncClient() as client:
-        response = await client.get(f"https://financialmodelingprep.com/api/v3/quote/{symbol}?apikey=U2QEsMasPfIbprTwSVyubH5Ehe9AjRMM")
+        response = await client.get(f"https://financialmodelingprep.com/api/v3/quote/{symbol}?apikey={API_KEY}")
     return response.json()
 
 @app.websocket("/ws")
@@ -61,9 +67,3 @@ async def websocket_endpoint(websocket: WebSocket):
         data = await websocket.receive_text()
         result = f"Real-time data: {data}"
         await websocket.send_text(result)
-
-# The main entry point of your application
-if __name__ == "__main__":
-    import uvicorn
-    port = int(os.environ.get("PORT", 8000))  # Use PORT from the environment or default to 8000
-    uvicorn.run(app, host="0.0.0.0", port=port)
