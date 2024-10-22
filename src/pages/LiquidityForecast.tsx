@@ -11,7 +11,7 @@ const LiquidityForecast = () => {
   useEffect(() => {
     const fetchForecast = async () => {
       try {
-        const response = await axios.get('http://0.0.0.0:8000/api/forecast');
+        const response = await axios.get('https://finance-pulse.onrender.com/api/forecast');
         setForecast(response.data);
       } catch (error) {
         console.error('Error fetching forecast data:', error);
