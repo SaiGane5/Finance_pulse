@@ -11,7 +11,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://0.0.0.0:8000/api/cash-flow/AAPL');
+        const response = await axios.get('http://0.0.0.0:8000/api/cash-flow/IBM');
         setCashFlow(response.data[0]);
       } catch (error) {
         console.error('Error fetching cash flow data:', error);
@@ -27,9 +27,9 @@ const Dashboard = () => {
       {
         label: 'Cash Flow (in millions)',
         data: cashFlow ? [
-          cashFlow.operatingCashFlow / 1000000,
-          cashFlow.investingCashFlow / 1000000,
-          cashFlow.financingCashFlow / 1000000
+          cashFlow.operatingCashFlow / 1000000 || 0,
+          cashFlow.investingCashFlow / 1000000 || 0,
+          cashFlow.financingCashFlow / 1000000 || 0
         ] : [],
         backgroundColor: [
           'rgba(75, 192, 192, 0.6)',
@@ -54,10 +54,10 @@ const Dashboard = () => {
         beginAtZero: true,
         min: 0,
         max: cashFlow ? Math.max(
-          cashFlow.operatingCashFlow / 1000000,
-          cashFlow.investingCashFlow / 1000000,
-          cashFlow.financingCashFlow / 1000000
-        ) + 10 : 10,
+          cashFlow.operatingCashFlow / 1000000 || 0,
+          cashFlow.investingCashFlow / 1000000 || 0,
+          cashFlow.financingCashFlow / 1000000 || 0
+        ) + 10 : 10, // Adds padding to the max value
       },
       x: {
         title: {
@@ -72,8 +72,8 @@ const Dashboard = () => {
     <div className="space-y-6">
       <h1 className="text-3xl font-bold">Dashboard</h1>
       <div className="bg-white p-6 rounded-lg shadow-md">
-        <h2 className="text-xl font-semibold mb-4">Cash Flow Overview (AAPL)</h2>
-        <div className="chart-container"> {/* Add the chart-container class here */}
+        <h2 className="text-xl font-semibold mb-4">Cash Flow Overview (IBM)</h2>
+        <div className="chart-container">
           {cashFlow ? (
             <Line data={chartData} options={options} />
           ) : (

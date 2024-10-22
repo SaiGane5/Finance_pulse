@@ -1,0 +1,24 @@
+.chart-container {
+    width: 100%;
+    /* Full width of the container */
+    height: 60vh;
+    /* Occupies 60% of viewport height */
+    overflow-x: auto;
+    /* Enable horizontal scroll */
+    overflow-y: hidden;
+    /* Disable vertical scroll */
+    white-space: nowrap;
+    /* Prevent wrapping */
+    border: 1px solid #ddd;
+    /* Optional: Add a border for visibility */
+    padding-bottom: 20px;
+    /* Add padding to make space for the horizontal scrollbar */
+}
+
+/* Chart canvas inside container */
+.chart-wrapper {
+    min-width: 1500px;
+    /* This ensures the chart is wide enough to cause horizontal scrolling */
+    height: 100%;
+    /* Full height of the container */
+}
