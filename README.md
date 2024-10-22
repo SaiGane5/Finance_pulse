@@ -9,40 +9,22 @@ Financial Pulse is a comprehensive financial monitoring and analysis tool that p
 - News analysis with sentiment and entity recognition
 - Market insights with real-time data and investment recommendations
 - Real-time alerts system
+- Dark mode toggle for user interface
 
-## Getting Started
-
-### Prerequisites
+## Prerequisites
 
 - Node.js (v14 or later)
-- Python (v3.8 or later)
-- pip (Python package manager)
+- npm (Node Package Manager)
 
-### Installation
+## Running the Application
 
-1. Clone the repository:
-   ```
-   git clone https://github.com/yourusername/financial-pulse.git
-   cd financial-pulse
+1. Install the dependencies:
+   ```bash
+   npm install
    ```
 
-2. Install backend dependencies:
-   ```
-   cd src/backend
-   pip install -r requirements.txt
-   cd ../..
-   ```
-
-
-### Running the Application
-
-1. Start the backend server:
-   ```
-   uvicorn app.main:app --reload
-   ```
-
-2. In a new terminal, start the frontend development server:
-   ```
+2. Start the development server:
+   ```bash
    npm run dev
    ```
 
@@ -53,20 +35,49 @@ Financial Pulse is a comprehensive financial monitoring and analysis tool that p
 To deploy the application, follow these steps:
 
 1. Build the frontend:
-   ```
+   ```bash
    npm run build
    ```
 
-2. Deploy the backend to a Python-compatible hosting service (e.g., Heroku, DigitalOcean).
+2. Deploy the build folder to a static hosting service (e.g., Netlify, Vercel).
 
-3. Update the API endpoint in the frontend configuration to point to your deployed backend.
+## Frontend Component Documentation
 
-4. Deploy the frontend to a static hosting service (e.g., Netlify, Vercel).
+### Overview
 
-## Contributing
+The frontend of Financial Pulse is built using React and TypeScript, with routing handled by React Router.
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+### Components
 
-## License
+#### src/main.tsx
 
-This project is licensed under the MIT License.
+**Description:** Entry point of the application. It renders the App component into the root DOM node.
+
+**Key Functions:**
+- `createRoot`: Initializes the React application
+- `StrictMode`: Helps identify potential problems in an application
+
+#### src/App.tsx
+
+**Description:** Main application component that sets up routing and theme management.
+
+**Key Functions:**
+- `useState`: Manages the theme state (light/dark)
+- `useEffect`: Applies the theme to the document and saves it to localStorage
+- `toggleTheme`: Toggles between light and dark themes
+- `Router`, `Route`, `Routes`: Manages navigation between different pages
+
+**Routes:**
+- `/`: Renders the Dashboard component
+- `/forecast`: Renders the LiquidityForecast component
+- `/news`: Renders the NewsAnalysis component
+- `/market`: Renders the MarketInsights component
+- `/alerts`: Renders the Alerts component
+
+**Navigation:**
+Uses `Link` components for navigation with icons from lucide-react.
+
+### Additional Notes
+
+- Ensure that all environment variables are correctly set before running the application
+- The application supports a dark mode toggle, which is saved in the browser's localStorage
