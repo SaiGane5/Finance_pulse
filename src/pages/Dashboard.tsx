@@ -11,7 +11,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://0.0.0.0:8000/api/cash-flow/IBM');
+        const response = await axios.get('https://finance-pulse.onrender.com/api/cash-flow/IBM');
         setCashFlow(response.data[0]);
       } catch (error) {
         console.error('Error fetching cash flow data:', error);
