@@ -1,3 +1,4 @@
+import os
 from fastapi import FastAPI, WebSocket, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
@@ -17,9 +18,6 @@ app.add_middleware(
     allow_methods=["*"],  # Allow all methods
     allow_headers=["*"],  # Allow all headers
 )
-
-# Mount the frontend static files
-# app.mount("/", StaticFiles(directory="../", html=True), name="frontend")
 
 @app.get("/api/forecast")
 async def liquidity_forecast():
@@ -42,7 +40,7 @@ async def get_market():
 @app.get("/api/recommendations")
 async def get_recommendations():
     market_data = await get_market_data()
-    return await get_investment_recommendations(market_data)
+    return await get_investment_recommender(market_data)
 
 @app.get("/api/cash-flow/{symbol}")
 async def get_cash_flow(symbol: str):
@@ -63,3 +61,9 @@ async def websocket_endpoint(websocket: WebSocket):
         data = await websocket.receive_text()
         result = f"Real-time data: {data}"
         await websocket.send_text(result)
+
+# The main entry point of your application
+if __name__ == "__main__":
+    import uvicorn
+    port = int(os.environ.get("PORT", 8000))  # Use PORT from the environment or default to 8000
+    uvicorn.run(app, host="0.0.0.0", port=port)
