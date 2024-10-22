@@ -11,8 +11,8 @@ const MarketInsights = () => {
     const fetchMarketData = async () => {
       try {
         const [marketResponse, recommendationsResponse] = await Promise.all([
-          axios.get('http://0.0.0.0:8000/api/market'),
-          axios.get('http://0.0.0.0:8000/api/recommendations'),
+          axios.get('https://finance-pulse.onrender.com/api/market'),
+          axios.get('https://finance-pulse.onrender.com/api/recommendations'),
         ]);
         setMarketData(marketResponse.data);
         setRecommendations(recommendationsResponse.data);
